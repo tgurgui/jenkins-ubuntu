@@ -1,7 +1,7 @@
 # build:
 #   docker build -t gbevan/jenkins-ubuntu:latest .
 
-FROM ubuntu:16.04
+FROM arm64v8/ubuntu:latest
 MAINTAINER Graham Bevan "graham.bevan@ntlworld.com"
 
 ENV DEBIAN_FRONTEND=noninteractive LANG=C LC_ALL=C
@@ -13,12 +13,11 @@ RUN \
     apt-add-repository ppa:git-core/ppa -y && \
     apt-get -yq update && \
     apt-get dist-upgrade -yq && \
-    apt-get install -yqq sudo wget aptitude htop vim vim-puppet git traceroute dnsutils \
+    apt-get install -yqq sudo wget htop git nano \
       curl ssh sudo psmisc gcc make build-essential libfreetype6 libfontconfig openjdk-8-jdk-headless \
-      augeas-tools tree tcpdump && \
+      tree cmake libgl1-mesa-glx libxt-dev && \
     echo "jenkins ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/jenkins && \
     chmod 0440 /etc/sudoers.d/jenkins && \
-    echo "set modeline" > /etc/vim/vimrc.local && \
     echo "export TERM=vt100\nexport LANG=C\nexport LC_ALL=C" > /etc/profile.d/dockenv.sh && \
     sed -i 's/^#\( alias l\)/\1/' /root/.bashrc && \
     echo "export TERM=vt100" >> /root/.bashrc && \
